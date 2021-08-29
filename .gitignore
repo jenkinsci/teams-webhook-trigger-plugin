@@ -1,0 +1,12 @@
+*.versionsBackup
+.factorypath
+.classpath
+.project
+.settings
+.okhttpcache
+target
+work
+.idea
+*iml
+/.apt_generated/
+.vscode
