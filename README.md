@@ -1,4 +1,6 @@
-# Generic Webhook Trigger Plugin
+# MSteams Webhook Trigger Plugin
+
+this plugin is based on generic webhook trigger plugin and hmac decoding strategy is changed to meet ms teams criteria.
 
 [![Build Status](https://ci.jenkins.io/job/Plugins/job/generic-webhook-trigger-plugin/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/generic-webhook-trigger-plugin)
 
