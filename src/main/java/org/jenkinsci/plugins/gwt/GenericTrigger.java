@@ -52,7 +52,7 @@ public class GenericTrigger extends Trigger<Job<?, ?>> {
 
     @Override
     public String getDisplayName() {
-      return "Generic Webhook Trigger";
+      return "Teams Webhook Trigger";
     }
 
     public ListBoxModel doFillTokenCredentialIdItems(

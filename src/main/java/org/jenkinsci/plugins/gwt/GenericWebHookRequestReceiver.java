@@ -41,7 +41,7 @@ public class GenericWebHookRequestReceiver extends CrumbExclusion implements Unp
           + " configured! "
           + "If you are using a token, you need to pass it like ...trigger/invoke?token=TOKENHERE. "
           + "If you are not using a token, you need to authenticate like http://user:passsword@jenkins/generic-webhook... ";
-  private static final String URL_NAME = "generic-webhook-trigger";
+  private static final String URL_NAME = "teams-webhook-trigger";
   private static final Logger LOGGER =
       Logger.getLogger(GenericWebHookRequestReceiver.class.getName());
 

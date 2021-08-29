@@ -17,7 +17,7 @@
 
 	<artifactId>msteams-webhook-trigger</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Generic Webhook Trigger Plugin</name>
+	<name>MSTeams Webhook Trigger Plugin</name>
 	<description>Can receive any HTTP request, extract any values from JSON or XML and trigger a job with those values available as variables. Works with GitHub, GitLab, Bitbucket, Jira and many more.</description>
 	<url>https://github.com/jenkinsci/generic-webhook-trigger-plugin</url>
 	<packaging>hpi</packaging>
@@ -31,9 +31,9 @@
 
 	<developers>
 		<developer>
-			<id>tomasbjerre</id>
-			<name>Tomas Bjerre</name>
-			<email>tomas.bjerre85@gmail.com</email>
+			<id>uday4923</id>
+			<name>Uday Kumar</name>
+			<email>udaykumar4923@gmail.com</email>
 		</developer>
 	</developers>
 
