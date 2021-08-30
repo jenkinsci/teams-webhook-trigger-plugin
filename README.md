@@ -1,6 +1,6 @@
 # Teams Webhook Trigger Plugin
 
-This plugin is based on generic webhook trigger plugin and HMAC decoding strategy is changed to meet ms teams criteria. Will work perfectly if your service requires to first decode the HMAC Secret in BASE64 decoding.
+This plugin is based on generic webhook trigger plugin and HMAC decoding strategy is changed to meet ms teams criteria. Will work perfectly if your service requires to first decode the HMAC Secret in BASE64 decoding. 
 
 This is a Jenkins plugin that can:
 
@@ -203,13 +203,7 @@ pipelineJob('Generic Job Example') {
 
 When configuring from pipeline (not multibranch pipeline), that pipeline needs to run once, to apply the plugin trigger config, and after that this plugin will be able to trigger the job. This is how Jenkins works, not something implemented in this plugin.
 
-This means that if you create a pipeline like this:
-
-![Parameter](/sandbox/pipeline-pre-run.png)
-
-You need to run it once to have the properties applied. You can verify that the properties has been applied by opening the configuration view (or view configuration if using multibranch pipeline) of the job. You will see that the "teams Webhook Trigger" is checked and will now have values from your pipeline. Like this:
-
-![Parameter](/sandbox/pipeline-post-run.png)
+You need to run it once to have the properties applied. You can verify that the properties has been applied by opening the configuration view (or view configuration if using multibranch pipeline) of the job. You will see that the "teams Webhook Trigger" is checked and will now have values from your pipeline.
 
 You can avoid having to run twice, by using Job DSL and have Job DSL create pipeline jobs with the plugin configured in that DSL.
 
