@@ -65,12 +65,14 @@ public class ParameterActionUtil {
       final Map<String, String> resolvedVariables,
       final String param,
       final ParameterValue defaultParameterValue) {
+
+    String result = "";
     if (!isNullOrEmpty(resolvedVariables.get(param))) {
       return resolvedVariables.get(param);
     }
-    if (defaultParameterValue.getValue() == null) {
-      return "";
+    if (defaultParameterValue != null) {
+      result = defaultParameterValue.getValue().toString();
     }
-    return defaultParameterValue.getValue().toString();
+    return result;
   }
 }

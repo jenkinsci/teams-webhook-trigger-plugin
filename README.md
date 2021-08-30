@@ -1,12 +1,10 @@
-# MSteams Webhook Trigger Plugin
+# Teams Webhook Trigger Plugin
 
-this plugin is based on generic webhook trigger plugin and hmac decoding strategy is changed to meet ms teams criteria.
-
-[![Build Status](https://ci.jenkins.io/job/Plugins/job/generic-webhook-trigger-plugin/job/master/badge/icon)](https://ci.jenkins.io/job/Plugins/job/generic-webhook-trigger-plugin)
+This plugin is based on generic webhook trigger plugin and HMAC decoding strategy is changed to meet ms teams criteria. Will work perfectly if your service requires to first decode the HMAC Secret in BASE64 decoding.
 
 This is a Jenkins plugin that can:
 
-1.  Receive any HTTP request, `JENKINS_URL/generic-webhook-trigger/invoke`
+1.  Receive any HTTP request, `JENKINS_URL/teams-webhook-trigger/invoke`
 2.  Extract values
 
 - From `POST` content with [JSONPath](https://github.com/json-path/JsonPath) or [XPath](https://www.w3schools.com/xml/xpath_syntax.asp)
@@ -31,7 +29,7 @@ There are more [examples of use cases here](src/test/resources/org/jenkinsci/plu
 
 Video showing an example usage:
 
-[![Generic Webhook Trigger Usage Example](https://img.youtube.com/vi/8mrJNkofxq4/0.jpg)](https://www.youtube.com/watch?v=8mrJNkofxq4)
+[![teams Webhook Trigger Usage Example](https://img.youtube.com/vi/8mrJNkofxq4/0.jpg)](https://www.youtube.com/watch?v=8mrJNkofxq4)
 
 It can trigger on any webhook, like:
 

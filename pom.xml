@@ -1,31 +1,34 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>3.2</version>
+		<version>4.0</version>
+		<relativePath />
 	</parent>
 
 	<properties>
 		<java.level>8</java.level>
-		<jenkins.version>2.7.4</jenkins.version>
+		<jenkins.version>2.164.3</jenkins.version>
 		<findbugs.failOnError>false</findbugs.failOnError>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 		<violations.version>1.48</violations.version>
 		<changelog>1.78</changelog>
 	</properties>
 
-	<artifactId>msteams-webhook-trigger</artifactId>
+	<groupId>io.jenkins.plugins</groupId>
+	<artifactId>teams-webhook-trigger</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>MSTeams Webhook Trigger Plugin</name>
-	<description>Can receive any HTTP request, extract any values from JSON or XML and trigger a job with those values available as variables. Works with GitHub, GitLab, Bitbucket, Jira and many more.</description>
-	<url>https://github.com/jenkinsci/generic-webhook-trigger-plugin</url>
+	<description>Can receive any HTTP request from microsft teams and trigger jobs according to the data passed</description>
 	<packaging>hpi</packaging>
 
 	<licenses>
 		<license>
 			<name>MIT License</name>
-			<url>http://opensource.org/licenses/MIT</url>
+			<url>https://opensource.org/licenses/MIT</url>
 		</license>
 	</licenses>
 
@@ -39,7 +42,7 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/jenkinsci/generic-webhook-trigger-plugin</url>
+		<url>https://github.com/uday4923/msteams-webhook-trigger</url>
 	</issueManagement>
 
 	<distributionManagement>
@@ -56,10 +59,9 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:ssh://github.com:jenkinsci/generic-webhook-trigger-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:jenkinsci/generic-webhook-trigger-plugin.git</developerConnection>
-		<url>https://github.com/jenkinsci/generic-webhook-trigger-plugin</url>
-		<tag>HEAD</tag>
+		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 	</scm>
 
 	<repositories>
@@ -89,63 +91,6 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>se.bjurr.gitchangelog</groupId>
-				<artifactId>git-changelog-maven-plugin</artifactId>
-				<version>${changelog}</version>
-				<executions>
-					<execution>
-						<id>GenerateGitChangelog</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>git-changelog</goal>
-						</goals>
-						<configuration>
-							<readableTagName>-([^-]+?)$</readableTagName>
-							<gitHubApi>https://api.github.com/repos/jenkinsci/generic-webhook-trigger-plugin</gitHubApi>
-							<gitHubToken>${GITHUB_OAUTH2TOKEN}</gitHubToken>
-							<gitHubIssuePattern>#([0-9]*)</gitHubIssuePattern>
-							<file>CHANGELOG.md</file>
-							<jiraIssuePattern>\bJENKINS-([0-9]+)\b</jiraIssuePattern>
-							<ignoreCommitsIfMessageMatches>^\[maven-release-plugin\].*</ignoreCommitsIfMessageMatches>
-							<templateContent>
-        <![CDATA[
-# Generic Webhook Plugin Changelog
-Changelog of Generic Webhook Plugin.
-{{#tags}}
-## {{name}}{{#hasTagTime}} ({{tagTime}}){{/hasTagTime}}
- {{#issues}}
-  {{#hasIssue}}
-   {{#hasLink}}
-### {{name}} [{{issue}}]({{link}}) {{title}} {{#hasIssueType}} *{{issueType}}* {{/hasIssueType}} {{#hasLabels}} {{#labels}} *{{.}}* {{/labels}} {{/hasLabels}}
-   {{/hasLink}}
-   {{^hasLink}}
-### {{name}} {{issue}} {{title}} {{#hasIssueType}} *{{issueType}}* {{/hasIssueType}} {{#hasLabels}} {{#labels}} *{{.}}* {{/labels}} {{/hasLabels}}
-   {{/hasLink}}
-  {{/hasIssue}}
-  {{^hasIssue}}
-### {{name}}
-  {{/hasIssue}}
-
-  {{#commits}}
-**{{{messageTitle}}}**
-
-{{#messageBodyItems}}
- * {{.}} 
-{{/messageBodyItems}}
-
-[{{hash}}](https://github.com/jenkinsci/generic-webhook-trigger-plugin/commit/{{hash}}) {{authorName}} *{{commitTime}}*
-
-  {{/commits}}
-
- {{/issues}}
-{{/tags}}
-]]>
-							</templateContent>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.coveo</groupId>
@@ -206,11 +151,6 @@ Changelog of Generic Webhook Plugin.
 	<dependencies>
 		<dependency>
 			<groupId>org.jenkins-ci.plugins</groupId>
-			<artifactId>credentials</artifactId>
-			<version>2.1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jenkins-ci.plugins</groupId>
 			<artifactId>plain-credentials</artifactId>
 			<version>1.2</version>
 		</dependency>
@@ -265,7 +205,6 @@ Changelog of Generic Webhook Plugin.
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Cucumber -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
@@ -279,4 +218,13 @@ Changelog of Generic Webhook Plugin.
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>2.2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
