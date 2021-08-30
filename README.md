@@ -27,26 +27,10 @@ Then you can have a variable, resolved from post content, named `ref` of type `J
 
 There are more [examples of use cases here](src/test/resources/org/jenkinsci/plugins/gwt/bdd).
 
-Video showing an example usage:
+Video showing an example usage of generic plugin which is also elgible for this plugin:
 
 [![teams Webhook Trigger Usage Example](https://img.youtube.com/vi/8mrJNkofxq4/0.jpg)](https://www.youtube.com/watch?v=8mrJNkofxq4)
 
-It can trigger on any webhook, like:
-
-- [Bitbucket Cloud](https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html)
-- [Bitbucket Server](https://confluence.atlassian.com/bitbucketserver/managing-webhooks-in-bitbucket-server-938025878.html)
-- [GitHub](https://developer.github.com/webhooks/)
-- [GitLab](https://docs.gitlab.com/ce/user/project/integrations/webhooks.html)
-- [Gogs](https://gogs.io/docs/features/webhook) and [Gitea](https://docs.gitea.io/en-us/webhooks/)
-- [Assembla](https://blog.assembla.com/AssemblaBlog/tabid/12618/bid/107614/Assembla-Bigplans-Integration-How-To.aspx)
-- [Jira](https://developer.atlassian.com/server/jira/platform/webhooks/)
-- And many many more!
-
-The original use case was to build merge/pull requests. You may use the Git Plugin as described in [this blog post](http://bjurr.com/continuous-integration-with-gitlab-and-jenkins/) to do that. There is also an example of this on the [Violation Comments to GitLab Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Violation+Comments+to+GitLab+Plugin) page.
-
-You may want to report back to the invoking system. [HTTP Request Plugin](https://wiki.jenkins-ci.org/display/JENKINS/HTTP+Request+Plugin) is a very convenient plugin for that.
-
-If a node is selected, then all leafs in that node will be contributed. If a leaf is selected, then only that leaf will be contributed.
 
 ## Trigger only specific job
 
@@ -65,14 +49,14 @@ The token can be supplied as a:
 
 - Request parameter:
   
-  `curl -vs http://localhost:8080/jenkins/generic-webhook-trigger/invoke?token=abc123 2>&1`
+  `curl -vs http://localhost:8080/jenkins/teams-webhook-trigger/invoke?token=abc123 2>&1`
 - Token header:
   
-  `curl -vs -H "token: abc123" http://localhost:8080/jenkins/generic-webhook-trigger/invoke 2>&1`
+  `curl -vs -H "token: abc123" http://localhost:8080/jenkins/teams-webhook-trigger/invoke 2>&1`
   - It will also detect `X-Gitlab-Token`.
 - _Authorization_ header of type _Bearer_ :
   
-  `curl -vs -H "Authorization: Bearer abc123" http://localhost:8080/jenkins/generic-webhook-trigger/invoke 2>&1`
+  `curl -vs -H "Authorization: Bearer abc123" http://localhost:8080/jenkins/teams-webhook-trigger/invoke 2>&1`
 
 ## Trigger exactly one build
 
@@ -111,30 +95,30 @@ If you are fiddling with expressions, you may want to checkout:
 It's probably easiest to do with `curl`. Given that you have configured a Jenkins job to trigger on Generic Webhook, here are some examples of how to start the jobs.
 
 ```bash
-curl -vs http://localhost:8080/jenkins/generic-webhook-trigger/invoke 2>&1
+curl -vs http://localhost:8080/jenkins/teams-webhook-trigger/invoke 2>&1
 ```
 
 This should start your job, if the job has no `token` configured and no security enabled. If you have security enabled you may need to authenticate:
 
 ```bash
-curl -vs http://theusername:thepasssword@localhost:8080/jenkins/generic-webhook-trigger/invoke 2>&1
+curl -vs http://theusername:thepasssword@localhost:8080/jenkins/teams-webhook-trigger/invoke 2>&1
 ```
 
 If your job has a `token` you don't need to supply other credentials. You can specify the `token` like this:
 
 ```bash
-curl -vs http://localhost:8080/jenkins/generic-webhook-trigger/invoke?token=TOKEN_HERE 2>&1
+curl -vs http://localhost:8080/jenkins/teams-webhook-trigger/invoke?token=TOKEN_HERE 2>&1
 ```
 
 If you want to trigger with `token` and some post content, `curl` can dot that like this.
 
 ```bash
-curl -v -H "Content-Type: application/json" -X POST -d '{ "app":{ "name":"some value" }}' http://localhost:8080/jenkins/generic-webhook-trigger/invoke?token=TOKEN_HERE
+curl -v -H "Content-Type: application/json" -X POST -d '{ "app":{ "name":"some value" }}' http://localhost:8080/jenkins/teams-webhook-trigger/invoke?token=TOKEN_HERE
 ```
 
 ## Screenshots
 
-![Generic trigger](/sandbox/generic-trigger.png)
+![Generic trigger](/sandbox/teams-trigger.png)
 
 ### Default values
 
@@ -223,7 +207,7 @@ This means that if you create a pipeline like this:
 
 ![Parameter](/sandbox/pipeline-pre-run.png)
 
-You need to run it once to have the properties applied. You can verify that the properties has been applied by opening the configuration view (or view configuration if using multibranch pipeline) of the job. You will see that the "Generic Webhook Trigger" is checked and will now have values from your pipeline. Like this:
+You need to run it once to have the properties applied. You can verify that the properties has been applied by opening the configuration view (or view configuration if using multibranch pipeline) of the job. You will see that the "teams Webhook Trigger" is checked and will now have values from your pipeline. Like this:
 
 ![Parameter](/sandbox/pipeline-post-run.png)
 
@@ -371,7 +355,7 @@ pipeline {
 It can be triggered with something like:
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -H "headerWithNumber: nbr123" -H "headerWithString: a b c" -d '{ "before": "1848f12", "after": "5cab1", "ref": "refs/heads/develop" }' -vs http://admin:admin@localhost:8080/jenkins/generic-webhook-trigger/invoke?requestWithNumber=nbr%20123\&requestWithString=a%20string
+curl -X POST -H "Content-Type: application/json" -H "headerWithNumber: nbr123" -H "headerWithString: a b c" -d '{ "before": "1848f12", "after": "5cab1", "ref": "refs/heads/develop" }' -vs http://admin:admin@localhost:8080/jenkins/teams-webhook-trigger/invoke?requestWithNumber=nbr%20123\&requestWithString=a%20string
 ```
 
 And the job will have this in the log:
