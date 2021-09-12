@@ -1,10 +1,10 @@
 /*
- * curl -X POST -H "Content-Type: application/json" -H "headerWithNumber: nbr123" -H "headerWithString: a b c" -d '{ "before": "1848f12", "after": "5cab1", "ref": "refs/heads/develop" }' -vs http://admin:admin@localhost:8080/jenkins/generic-webhook-trigger/invoke?requestWithNumber=nbr%20123\&requestWithString=a%20string
+ * curl -X POST -H "Content-Type: application/json" -H "headerWithNumber: nbr123" -H "headerWithString: a b c" -d '{ "before": "1848f12", "after": "5cab1", "ref": "refs/heads/develop" }' -vs http://admin:admin@localhost:8080/jenkins/teams-webhook-trigger/invoke?requestWithNumber=nbr%20123\&requestWithString=a%20string
  */
 node {
  properties([
   pipelineTriggers([
-   [$class: 'GenericTrigger',
+   [$class: 'TeamsTrigger',
     genericVariables: [
      [key: 'reference', value: '$.ref'],
      [

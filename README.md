@@ -1,17 +1,19 @@
 # Teams Webhook Trigger Plugin
 
-This plugin is based on generic webhook trigger plugin and HMAC decoding strategy is changed to meet ms teams criteria. Will work perfectly if your service requires to first decode the HMAC Secret in BASE64 decoding. 
+This plugin is based on generic webhook trigger plugin and HMAC decoding strategy is changed to meet ms teams criteria. Will work perfectly with teams outgoing webhook or if your service requires to first decode the HMAC Secret in BASE64 decoding. 
 
 This is a Jenkins plugin that can:
 
 1.  Receive any HTTP request, `JENKINS_URL/teams-webhook-trigger/invoke`
-2.  Extract values
+2.  Authenticate Teams outgoing webhook HMAC    
+3.  Extract values
 
 - From `POST` content with [JSONPath](https://github.com/json-path/JsonPath) or [XPath](https://www.w3schools.com/xml/xpath_syntax.asp)
 - From the `query` parameters
 - From the `headers`
 
 3.  Trigger a build with those values contribute as variables
+4.  Trigger several builds in one go with matching criteria
 
 There is an optional feature to trigger jobs only if a supplied regular expression matches the extracted variables. Here is an example, let's say the post content looks like this:
 
@@ -24,13 +26,6 @@ There is an optional feature to trigger jobs only if a supplied regular expressi
 ```
 
 Then you can have a variable, resolved from post content, named `ref` of type `JSONPath` and with expression like `$.ref` . The optional filter text can be set to `$ref` and the filter regexp set to [^(refs/heads/develop|refs/heads/feature/.+)\$](<https://jex.im/regulex/#!embed=false&flags=&re=%5E(refs%2Fheads%2Fdevelop%7Crefs%2Fheads%2Ffeature%2F.%2B)%24>) to trigger builds only for develop and feature-branches.
-
-There are more [examples of use cases here](src/test/resources/org/jenkinsci/plugins/gwt/bdd).
-
-Video showing an example usage of generic plugin which is also elgible for this plugin:
-
-[![teams Webhook Trigger Usage Example](https://img.youtube.com/vi/8mrJNkofxq4/0.jpg)](https://www.youtube.com/watch?v=8mrJNkofxq4)
-
 
 ## Trigger only specific job
 
@@ -84,8 +79,6 @@ The hosts can optionally also be verified with [HMAC](https://en.wikipedia.org/w
 
 ## Troubleshooting
 
-If you want to fiddle with the plugin, you may use this repo: https://github.com/tomasbjerre/jenkins-configuration-as-code-sandbox
-
 If you are fiddling with expressions, you may want to checkout:
 
 - [This JSONPath site](http://jsonpath.herokuapp.com/)
@@ -132,26 +125,20 @@ But if you execute the job manually (or replay a pipeline), this default value w
 
 Now this default value will be used both when you trigger the job manually, replaying pipeline, and when you trigger it with the plugin!
 
-### Pre build step
-
-If you need the resolved values in pre build steps, like git clone, you need to add a parameter with the same name as the variable.
-
-![Parameter](/sandbox/parameter-git-repo.png)
-
 ## Job DSL Plugin
 
-This plugin can be used with the Job DSL Plugin. There is also an example int he [Violation Comments to GitLab Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Violation+Comments+to+GitLab+Plugin) wiki page.
+This plugin can be used with the Job DSL Plugin.
 
 Job DSL supports injecting credenials when processing the DSL. You can use that if you want the `token` to be set from credentials.
 
 ```groovy
-pipelineJob('Generic Job Example') {
+pipelineJob('Teams Webhook DSL Job Example') {
  parameters {
   stringParam('VARIABLE_FROM_POST', '')
  }
 
  triggers {
-  genericTrigger {
+  teamsTrigger {
    genericVariables {
     genericVariable {
      key("VARIABLE_FROM_POST")
@@ -215,7 +202,7 @@ You can use the credentials plugin to provide the `token` from credentials.
 withCredentials([string(credentialsId: 'mycredentialsid', variable: 'credentialsVariable')]) {
  properties([
   pipelineTriggers([
-   [$class: 'GenericTrigger',
+   [$class: 'TeamsTrigger',
     ...
     token: credentialsVariable,
     ...
@@ -230,7 +217,7 @@ Perhaps you want a different `token` for each job.
 ```groovy
  properties([
   pipelineTriggers([
-   [$class: 'GenericTrigger',
+   [$class: 'TeamsTrigger',
     ...
     token: env.JOB_NAME,
     ...
@@ -245,7 +232,7 @@ Or have a credentials string prefixed with the job name.
 withCredentials([string(credentialsId: 'mycredentialsid', variable: 'credentialsVariable')]) {
  properties([
   pipelineTriggers([
-   [$class: 'GenericTrigger',
+   [$class: 'TeamsTrigger',
     ...
     token: env.JOB_NAME + credentialsVariable,
     ...
@@ -261,7 +248,7 @@ With a scripted Jenkinsfile like this:
 node {
  properties([
   pipelineTriggers([
-   [$class: 'GenericTrigger',
+   [$class: 'TeamsTrigger',
     genericVariables: [
      [key: 'ref', value: '$.ref'],
      [
@@ -317,7 +304,7 @@ With a declarative Jenkinsfile like this:
 pipeline {
   agent any
   triggers {
-    GenericTrigger(
+    TeamsTrigger(
      genericVariables: [
       [key: 'ref', value: '$.ref']
      ],
