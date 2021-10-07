@@ -7,6 +7,8 @@ import static org.jenkinsci.plugins.teamstrigger.GenericResponse.jsonResponse;
 import static org.kohsuke.stapler.HttpResponses.ok;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 import hudson.Extension;
 import hudson.model.UnprotectedRootAction;
 import hudson.security.csrf.CrumbExclusion;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.teamstrigger.jobfinder.JobFinder;
+import org.jenkinsci.plugins.teamstrigger.resolvers.JsonFlattener;
 import org.jenkinsci.plugins.teamstrigger.whitelist.WhitelistException;
 import org.jenkinsci.plugins.teamstrigger.whitelist.WhitelistVerifier;
 import org.kohsuke.stapler.HttpResponse;
@@ -44,6 +47,7 @@ public class GenericWebHookRequestReceiver extends CrumbExclusion implements Unp
   private static final String URL_NAME = "teams-webhook-trigger";
   private static final Logger LOGGER =
       Logger.getLogger(GenericWebHookRequestReceiver.class.getName());
+  private final JsonFlattener jsonFlattener = new JsonFlattener();
 
   public HttpResponse doInvoke(final StaplerRequest request) {
     String postContent = null;
@@ -71,30 +75,44 @@ public class GenericWebHookRequestReceiver extends CrumbExclusion implements Unp
               + e.getMessage());
     }
 
-    final String givenToken = this.getGivenToken(headers, parameterMap);
+    final String givenToken = this.getGivenToken(headers, parameterMap, postContent);
     return this.doInvoke(headers, parameterMap, postContent, givenToken);
   }
 
   @VisibleForTesting
   String getGivenToken(
-      final Map<String, List<String>> headers, final Map<String, String[]> parameterMap) {
+      final Map<String, List<String>> headers,
+      final Map<String, String[]> parameterMap,
+      String postContent) {
     if (parameterMap.containsKey("token")) {
       return parameterMap.get("token")[0];
     }
     if (headers.containsKey("token")) {
       return headers.get("token").get(0);
     }
-    if (headers.containsKey("authorization")) {
-      for (final String candidateValue : headers.get("authorization")) {
-        if (candidateValue.startsWith("Bearer ")) {
-          return candidateValue.substring(7);
-        }
-      }
-    }
-    if (headers.containsKey("x-gitlab-token")) {
-      return headers.get("x-gitlab-token").get(0);
+    if (!postContent.isEmpty()) {
+      return getTokenFromTextKey(postContent, "$.text", "text", ",");
     }
     return null;
+  }
+
+  private String getTokenFromTextKey(
+      final String postContent,
+      final String expression,
+      final String keyName,
+      final String textSeparator) {
+    try {
+      final Object resolved = JsonPath.read(postContent, expression);
+      final Map<String, String> textValue =
+          this.jsonFlattener.flattenJson(keyName, expression, resolved);
+
+      String content = textValue.get(keyName);
+      String subContent =
+          content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
+      return subContent.replace("</at>", "").trim().split(textSeparator)[0];
+    } catch (final PathNotFoundException e) {
+      return null;
+    }
   }
 
   @VisibleForTesting

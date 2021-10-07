@@ -21,6 +21,7 @@ public class VariablesResolverXPathTest {
   public void testXPathGetOneVariable() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore/book[1]/title");
     genericVariable.setExpressionType(XPath);
@@ -36,7 +37,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -47,6 +50,7 @@ public class VariablesResolverXPathTest {
   public void testXPathGetOneNode() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore/book[1]");
     genericVariable.setExpressionType(XPath);
@@ -62,7 +66,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -73,6 +79,7 @@ public class VariablesResolverXPathTest {
   public void testXPathGetNodes() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore/book[*]");
     genericVariable.setExpressionType(XPath);
@@ -88,7 +95,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -100,6 +109,7 @@ public class VariablesResolverXPathTest {
   public void testXPathGetAttribute() throws Exception {
     final String resourceName = "attribute.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable =
         new GenericVariable("variablename", "/attribute[@name='thekey']/@value");
@@ -116,7 +126,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -154,6 +166,7 @@ public class VariablesResolverXPathTest {
   private Map<String, String> getVariables(
       final String resourceName, final GenericVariable genericVariable) {
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     genericVariable.setExpressionType(XPath);
     final List<GenericVariable> genericVariables =
@@ -168,7 +181,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
     return variables;
   }
@@ -177,6 +192,7 @@ public class VariablesResolverXPathTest {
   public void testXPathTwoListItems() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("payload", "/*");
     genericVariable.setExpressionType(XPath);
@@ -192,7 +208,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -207,6 +225,7 @@ public class VariablesResolverXPathTest {
   public void testXPathOneListItem() throws Exception {
     final String resourceName = "one-list-item.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("payload", "/*");
     genericVariable.setExpressionType(XPath);
@@ -222,7 +241,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -235,6 +256,7 @@ public class VariablesResolverXPathTest {
   public void testXPathTwoListListItems() throws Exception {
     final String resourceName = "two-list-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore");
     genericVariable.setExpressionType(XPath);
@@ -250,7 +272,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -271,6 +295,7 @@ public class VariablesResolverXPathTest {
   public void testXPathTwoListListItemsFirstBook() throws Exception {
     final String resourceName = "two-list-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore/book[1]");
     genericVariable.setExpressionType(XPath);
@@ -286,7 +311,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -305,6 +332,7 @@ public class VariablesResolverXPathTest {
   public void testXPathRootElement() throws Exception {
     final String resourceName = "two-list-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/");
     genericVariable.setExpressionType(XPath);
@@ -320,7 +348,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -335,6 +365,7 @@ public class VariablesResolverXPathTest {
   public void testXPathTwoListListItemsSecondBook() throws Exception {
     final String resourceName = "two-list-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore/book[2]");
     genericVariable.setExpressionType(XPath);
@@ -350,7 +381,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -363,6 +396,7 @@ public class VariablesResolverXPathTest {
   public void testXPathTwoListItemsFirstBook() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("book", "/bookstore/book[1]");
     genericVariable.setExpressionType(XPath);
@@ -378,7 +412,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -391,6 +427,7 @@ public class VariablesResolverXPathTest {
   public void testXPathGetTwoVariable() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable1 =
         new GenericVariable("book1", "/bookstore/book[1]/title");
@@ -412,7 +449,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -424,6 +463,7 @@ public class VariablesResolverXPathTest {
   public void testXPathGetZeroMatchingVariables() throws Exception {
     final String resourceName = "two-list-items.xml";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable =
         new GenericVariable("book1", "/bookstore/book[1]/title123");
@@ -441,7 +481,9 @@ public class VariablesResolverXPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //

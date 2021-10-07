@@ -15,6 +15,7 @@ public class VariablesResolverHeaderTest {
   @Test
   public void testHeadersAndRequestParameters() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -40,7 +41,9 @@ public class VariablesResolverHeaderTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -56,6 +59,7 @@ public class VariablesResolverHeaderTest {
   @Test
   public void testHeaders() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -79,7 +83,9 @@ public class VariablesResolverHeaderTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -95,6 +101,7 @@ public class VariablesResolverHeaderTest {
   @Test
   public void testHeaderResolvesToNull() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -113,7 +120,9 @@ public class VariablesResolverHeaderTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -124,6 +133,7 @@ public class VariablesResolverHeaderTest {
   @Test
   public void testHeaderResolvesCanBeReused() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -142,7 +152,9 @@ public class VariablesResolverHeaderTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -156,7 +168,9 @@ public class VariablesResolverHeaderTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -167,6 +181,7 @@ public class VariablesResolverHeaderTest {
   @Test
   public void testHeadersButNoneConfigured() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -187,7 +202,9 @@ public class VariablesResolverHeaderTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //

@@ -21,7 +21,7 @@ public class GenericWebHookRequestReceiverTest {
     final Map<String, List<String>> headers = newHashMap();
     final Map<String, String[]> parameterMap = newHashMap();
 
-    final String actual = sut.getGivenToken(headers, parameterMap);
+    final String actual = sut.getGivenToken(headers, parameterMap, "");
 
     assertThat(actual) //
         .isNull();
@@ -47,7 +47,7 @@ public class GenericWebHookRequestReceiverTest {
         of( //
             "token", new String[] {"tokenParam"});
 
-    final String actual = sut.getGivenToken(headers, parameterMap);
+    final String actual = sut.getGivenToken(headers, parameterMap, "");
 
     assertThat(actual) //
         .isEqualTo("tokenParam");
@@ -75,24 +75,10 @@ public class GenericWebHookRequestReceiverTest {
             "token", (List<String>) newArrayList("tokenHeader"));
     final Map<String, String[]> parameterMap = newHashMap();
 
-    final String actual = sut.getGivenToken(headers, parameterMap);
+    final String actual = sut.getGivenToken(headers, parameterMap, "");
 
     assertThat(actual) //
         .isEqualTo("tokenHeader");
-  }
-
-  @Test
-  public void testThatGitLabTokenHeaderTokenGivesThatToken() {
-    final GenericWebHookRequestReceiver sut = new GenericWebHookRequestReceiver();
-    final Map<String, List<String>> headers =
-        of( //
-            "x-gitlab-token", (List<String>) newArrayList("gitlabtoken"));
-    final Map<String, String[]> parameterMap = newHashMap();
-
-    final String actual = sut.getGivenToken(headers, parameterMap);
-
-    assertThat(actual) //
-        .isEqualTo("gitlabtoken");
   }
 
   @Test
@@ -121,20 +107,6 @@ public class GenericWebHookRequestReceiverTest {
 
     assertThat(actual) //
         .isEqualTo(-1);
-  }
-
-  @Test
-  public void testThatHeaderAuthorizationBearerTokenGivesThatToken() {
-    final GenericWebHookRequestReceiver sut = new GenericWebHookRequestReceiver();
-    final Map<String, List<String>> headers =
-        of( //
-            "authorization", (List<String>) newArrayList("Bearer baererTokenValue"));
-    final Map<String, String[]> parameterMap = newHashMap();
-
-    final String actual = sut.getGivenToken(headers, parameterMap);
-
-    assertThat(actual) //
-        .isEqualTo("baererTokenValue");
   }
 
   @Test

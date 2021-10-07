@@ -20,6 +20,8 @@ public class VariablesResolver {
       new PostContentParameterResolver();
   private final List<GenericHeaderVariable> configuredGenericHeaderVariables;
   private final Map<String, List<String>> incomingHeaders;
+  private final String textSeparator;
+  private final boolean requestFromTeams;
 
   public VariablesResolver(
       final Map<String, List<String>> incomingHeaders,
@@ -27,7 +29,11 @@ public class VariablesResolver {
       final String incomingPostContent,
       final List<GenericVariable> configuredGenericVariables,
       final List<GenericRequestVariable> configuredGenericRequestVariables,
-      final List<GenericHeaderVariable> configuredGenericHeaderVariables) {
+      final List<GenericHeaderVariable> configuredGenericHeaderVariables,
+      final String textSeparator,
+      boolean requestFromTeams) {
+    this.textSeparator = textSeparator;
+    this.requestFromTeams = firstNotNull(requestFromTeams, false);
     this.incomingPostContent = firstNotNull(incomingPostContent, "");
     this.configuredGenericVariables =
         firstNotNull(configuredGenericVariables, new ArrayList<GenericVariable>());
@@ -55,7 +61,7 @@ public class VariablesResolver {
             configuredGenericRequestVariables, incomingParameterMap));
     resolvedVariables.putAll(
         postContentParameterResolver.getPostContentParameters(
-            configuredGenericVariables, incomingPostContent));
+            configuredGenericVariables, incomingPostContent, textSeparator, requestFromTeams));
     return resolvedVariables;
   }
 }
