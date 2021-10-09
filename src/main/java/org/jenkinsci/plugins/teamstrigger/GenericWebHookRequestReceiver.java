@@ -107,9 +107,14 @@ public class GenericWebHookRequestReceiver extends CrumbExclusion implements Unp
           this.jsonFlattener.flattenJson(keyName, expression, resolved);
 
       String content = textValue.get(keyName);
-      String subContent =
-          content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
-      return subContent.replace("</at>", "").trim().split(textSeparator)[0];
+      if (content.contains("param:")) {
+        String subContent =
+            content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
+        return subContent.replace("</at>", "").trim().split(textSeparator)[0];
+      } else {
+        return content.substring(0, content.indexOf(","));
+      }
+
     } catch (final PathNotFoundException e) {
       return null;
     }

@@ -132,7 +132,7 @@ public class PostContentParameterResolver {
           this.jsonFlattener.flattenJson("text", "$.text", resolved);
       final int index = Integer.parseInt(gv.getExpression().replace("$.", ""));
       String content = textValue.get("text");
-      if (requestFromTeams) {
+      if (content.contains("param:")) {
         String subContent =
             content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
         content = subContent.replace("</at>", "");
