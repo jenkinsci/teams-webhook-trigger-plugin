@@ -41,6 +41,8 @@ public class TeamsTrigger extends Trigger<Job<?, ?>> {
   private String tokenCredentialId;
   private boolean silentResponse;
   private boolean overrideQuietPeriod;
+  private boolean requestFromTeams;
+  private String textSeparator;
 
   @Symbol("TeamsTrigger")
   public static class TeamsDescriptor extends TriggerDescriptor {
@@ -112,6 +114,24 @@ public class TeamsTrigger extends Trigger<Job<?, ?>> {
     return this.overrideQuietPeriod;
   }
 
+  @DataBoundSetter
+  public void setValuesFromTextKey(final boolean requestFromTeams) {
+    this.requestFromTeams = requestFromTeams;
+  }
+
+  public boolean getValuesFromTextKey() {
+    return this.requestFromTeams;
+  }
+
+  @DataBoundSetter
+  public void setTextSeparator(final String textSeparator) {
+    this.textSeparator = textSeparator;
+  }
+
+  public String getTextSeparator() {
+    return this.textSeparator;
+  }
+
   public boolean isSilentResponse() {
     return this.silentResponse;
   }
@@ -158,7 +178,9 @@ public class TeamsTrigger extends Trigger<Job<?, ?>> {
                 postContent,
                 this.genericVariables,
                 this.genericRequestVariables,
-                this.genericHeaderVariables)
+                this.genericHeaderVariables,
+                this.textSeparator,
+                this.requestFromTeams)
             .getVariables();
 
     final String renderedRegexpFilterText = renderText(this.regexpFilterText, resolvedVariables);

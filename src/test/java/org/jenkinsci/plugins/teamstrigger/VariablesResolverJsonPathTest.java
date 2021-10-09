@@ -120,6 +120,7 @@ public class VariablesResolverJsonPathTest {
   public void testJSONPathGetAllVariable() throws Exception {
     final String resourceName = "gitlab-mergerequest-comment.json";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables =
         newArrayList( //
@@ -139,7 +140,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -159,6 +162,7 @@ public class VariablesResolverJsonPathTest {
   @Test
   public void testGenericRequestParameters() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -187,7 +191,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -204,6 +210,7 @@ public class VariablesResolverJsonPathTest {
   public void testJSONPathGetZeroMatchingVariables() throws Exception {
     final String resourceName = "gitlab-mergerequest-comment.json";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables =
         newArrayList( //
@@ -217,7 +224,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -231,6 +240,7 @@ public class VariablesResolverJsonPathTest {
   public void testJSONPathGetOneVariable() throws Exception {
     final String resourceName = "gitlab-mergerequest-comment.json";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables =
         newArrayList( //
@@ -244,7 +254,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -256,6 +268,7 @@ public class VariablesResolverJsonPathTest {
   public void testJSONPathGetTwoVariables() throws Exception {
     final String resourceName = "gitlab-mergerequest-comment.json";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable1 = new GenericVariable("user_name", "$.user.name");
     genericVariable1.setRegexpFilter("[aA]");
@@ -272,7 +285,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -294,6 +309,7 @@ public class VariablesResolverJsonPathTest {
   public void testJSONPathGetPayloadVariable() throws Exception {
     final String resourceName = "gitlab-mergerequest-comment.json";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables =
         newArrayList( //
@@ -307,7 +323,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -318,6 +336,7 @@ public class VariablesResolverJsonPathTest {
   public void testJSONPathGetPayloadVariableDefault() throws Exception {
     final String resourceName = "gitlab-mergerequest-comment.json";
     final String postContent = getContent(resourceName);
+    final String textSeparator = ",";
 
     final GenericVariable genericVariable = new GenericVariable("payload", "$.doesnotexist");
     genericVariable.setDefaultValue("this is the default");
@@ -333,7 +352,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -377,6 +398,7 @@ public class VariablesResolverJsonPathTest {
 
   private Map<String, String> getJsonPathVariablesFromContent(
       final String jsonPath, final String postContent) {
+    final String textSeparator = ",";
     final List<GenericVariable> genericVariables =
         newArrayList( //
             new GenericVariable("variableName", jsonPath));
@@ -389,7 +411,9 @@ public class VariablesResolverJsonPathTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
     return variables;
   }

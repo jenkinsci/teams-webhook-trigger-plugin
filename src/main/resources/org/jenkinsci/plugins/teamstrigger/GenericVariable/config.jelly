@@ -12,6 +12,9 @@
     <f:entry>
      <f:radio name="expressionType" field="expressionType" value="XPath" title="XPath" checked="${instance.expressionType == 'XPath'}"/>
     </f:entry>
+    <f:entry>
+      <f:radio name="expressionType" field="expressionType" value="StringPart" title="StringPart" checked="${instance.expressionType == 'StringPart'}"/>
+    </f:entry>
     <f:description>
     Expression to evaluate in POST content sent by the webhook. Use <a href="https://github.com/jayway/JsonPath">JSONPath</a> for JSON or <a href="https://www.w3schools.com/xml/xpath_syntax.asp">XPath</a> for XML.
     </f:description>

@@ -17,6 +17,7 @@ public class VariablesResolverRequestParameterTest {
   @Test
   public void testGenericRequestParametersWithFilters() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -45,7 +46,9 @@ public class VariablesResolverRequestParameterTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
@@ -61,6 +64,7 @@ public class VariablesResolverRequestParameterTest {
   @Test
   public void testGenericRequestParameters() throws Exception {
     final String postContent = null;
+    final String textSeparator = ",";
 
     final List<GenericVariable> genericVariables = newArrayList();
 
@@ -82,7 +86,9 @@ public class VariablesResolverRequestParameterTest {
                 postContent,
                 genericVariables,
                 genericRequestVariables,
-                genericHeaderVariables)
+                genericHeaderVariables,
+                textSeparator,
+                false)
             .getVariables();
 
     assertThat(variables) //
