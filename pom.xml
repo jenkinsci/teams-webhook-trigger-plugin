@@ -18,7 +18,7 @@
 
 	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>teams-webhook-trigger</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.1</version>
 	<name>MSTeams Webhook Trigger Plugin</name>
 	<description>Can receive any HTTP request from microsft teams and trigger jobs according to the data passed</description>
 	<packaging>hpi</packaging>
@@ -60,7 +60,7 @@
 		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
 		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-	  <tag>HEAD</tag>
+	  <tag>teams-webhook-trigger-0.1.1</tag>
   </scm>
 
 	<repositories>
