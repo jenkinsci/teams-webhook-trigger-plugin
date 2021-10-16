@@ -126,27 +126,33 @@ public class PostContentParameterResolver {
       final GenericVariable gv,
       final String textSeparator,
       boolean requestFromTeams) {
+
+    String content = "";
     try {
       final Object resolved = JsonPath.read(incomingPostContent, "$.text");
       final Map<String, String> textValue =
           this.jsonFlattener.flattenJson("text", "$.text", resolved);
-      final int index = Integer.parseInt(gv.getExpression().replace("$.", ""));
-      String content = textValue.get("text");
-      if (content.contains("param:")) {
-        String subContent =
-            content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
-        content = subContent.replace("</at>", "");
-      }
-      final String body = content;
-      return new HashMap<String, String>() {
-        {
-          put(
-              gv.getVariableName(),
-              body.substring(body.indexOf(",") + 1).split(textSeparator)[index - 1]);
-        }
-      };
+      content = textValue.get("text");
     } catch (final PathNotFoundException e) {
       return new HashMap<>();
     }
+
+    final int index = Integer.parseInt(gv.getExpression().replace("$.", ""));
+    if (content.contains("param:")) {
+      String subContent =
+          content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
+      content = subContent.replace("</at>", "");
+    }
+
+    final Map<String, String> variable = new HashMap<String, String>();
+    String value = "";
+    if (!content.contains(",")) {
+      value = content.split(textSeparator)[index];
+    } else {
+      value = content.substring(content.indexOf(",") + 1).split(textSeparator)[index - 1];
+    }
+
+    variable.put(gv.getVariableName(), value);
+    return variable;
   }
 }
