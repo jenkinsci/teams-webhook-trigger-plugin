@@ -112,7 +112,7 @@ public class GenericWebHookRequestReceiver extends CrumbExclusion implements Unp
             content.substring(content.lastIndexOf("param:") + 6, content.lastIndexOf("\n"));
         return subContent.replace("</at>", "").trim().split(textSeparator)[0];
       } else {
-        if(content.contains(",")){
+        if (content.contains(",")) {
           return content.substring(0, content.indexOf(","));
         }
         return content;
